@@ -1,6 +1,5 @@
-package customer.customer;
+package com.customer.controller;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -19,9 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.customer.config.CustomerCreate;
+import com.customer.config.CustomerUpdate;
+import com.customer.model.CustomerEntity;
+import com.customer.service.CustomerService;
+
 
 @RestController
-@RequestMapping(path =  "/api/", produces = {APPLICATION_JSON_VALUE})
+@RequestMapping(path =  "/api/customer", produces = {APPLICATION_JSON_VALUE})
 public class CustomerController {
 
     private static final String SUBSTRING = "subString";
@@ -33,16 +37,22 @@ public class CustomerController {
 
     @ResponseStatus(CREATED)
     @PostMapping
-    public CustomerEntity createAccount(@Validated(CustomerCreate.class) @RequestBody CustomerEntity account) {
-
-        return customerService.save(account);
+    public CustomerEntity createCustomer(@Validated(CustomerCreate.class) @RequestBody CustomerEntity customer) {
+        return customerService.save(customer);
     }
 
     @ResponseStatus(OK)
     @PutMapping
-    public CustomerEntity updateAccount(@Validated(CustomerUpdate.class) @RequestBody CustomerEntity account) {
+    public CustomerEntity updateCustomer(@Validated(CustomerUpdate.class) @RequestBody CustomerEntity customer) {
 
-        return customerService.save(account);
+        return customerService.update(customer);
+    }
+    
+    @ResponseStatus(OK)
+    @PutMapping(value = {"/delete/{id}"})
+    public void deleteCustomer(@PathVariable(ID) Long id) {
+
+        customerService.delete(id);
     }
 
     @GetMapping(value = {"/search/{subString}"})
@@ -52,8 +62,9 @@ public class CustomerController {
         return customerService.searchCustomersByName(searchString);
     }
 
-    @GetMapping(value = "/customer/{id}")
+    @GetMapping(value = "/{id}")
     public CustomerEntity getCustomerById(@PathVariable(ID) Long id) {
-        return customerService.getCustomerById(id);
+    	CustomerEntity customerEntity = customerService.getCustomerById(id);
+        return customerEntity;
     }
 }

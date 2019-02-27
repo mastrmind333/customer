@@ -1,4 +1,4 @@
-package customer.customer;
+package com.customer.model;
 
 
 import java.io.Serializable;
@@ -18,6 +18,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.customer.config.Operation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 
@@ -126,7 +127,7 @@ public class AbstractAuditingEntity implements Serializable {
 
 
 	public void setAuditFields(Operation operation, String user, AbstractAuditingEntity source) {
-        if (CREATE.equals(operation)) {
+        if (Operation.CREATE == operation) {
             this.setCreatedBy(user);
             this.setCreatedDatetime(new Timestamp(System.currentTimeMillis()));
         } else {
@@ -134,6 +135,7 @@ public class AbstractAuditingEntity implements Serializable {
             this.setUpdatedDatetime(new Timestamp(System.currentTimeMillis()));
             this.setCreatedBy(source.getCreatedBy());
             this.setCreatedDatetime(source.getCreatedDatetime());
+            this.setVersion(source.getVersion() + 1);
         }
     }
 	

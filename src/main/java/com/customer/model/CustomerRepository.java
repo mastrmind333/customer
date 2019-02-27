@@ -1,4 +1,4 @@
-package customer.customer;
+package com.customer.model;
 
 import java.util.stream.Stream;
 
@@ -14,9 +14,9 @@ public interface CustomerRepository extends CrudRepository<CustomerEntity, Long>
 
 	  @Transactional(readOnly = true)
 	  @Query(value =
-	  "select * from CC_CUSTOMER customer where (customer.STATUS)='ENABLED' and (customer.FIRST_NAME) like '%' || :substring || '%' "
-	  + "and (customer.MIDDLE_NAME) like '%' || :substring || '%' " +
-	  "or (customer.LAST_NAME) like '%' || :substring || '%' ", nativeQuery = true)
+	  "select * from CC_CUSTOMER customer where UPPER(customer.STATUS)='ENABLED' and (UPPER(customer.FIRST_NAME) like %:substring% "
+	  + "or UPPER(customer.MIDDLE_NAME) like %:substring% " +
+	  "or UPPER(customer.LAST_NAME) like %:substring% )", nativeQuery = true)
 	  Stream<CustomerEntity> findAllByName(@Param(value = "substring") String subString);
 	  
 	 }

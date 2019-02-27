@@ -1,14 +1,16 @@
-package customer.customer;
+package com.customer.model;
 
+import static com.customer.config.CustomerConstant.SPACE;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
 import static org.hibernate.annotations.CacheConcurrencyStrategy.TRANSACTIONAL;
-import static customer.customer.CustomerConstant.SPACE;
 
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,8 +21,11 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
+import com.customer.config.CustomerCreate;
+import com.customer.config.CustomerUpdate;
+import com.customer.config.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.Objects;
@@ -52,7 +57,7 @@ public class AddressEntity extends AbstractAuditingEntity {
     private Long id;
 
     @Basic
-    @Column(name = "UNIT", nullable = false, length = 50)
+    @Column(name = "UNIT", length = 50)
     @NotBlank(groups = {CustomerCreate.class, CustomerUpdate.class})
     @Length(max = 50, groups = {CustomerCreate.class, CustomerUpdate.class})
     private Integer unit;
@@ -60,14 +65,12 @@ public class AddressEntity extends AbstractAuditingEntity {
     @Basic
     @Column(name = "STREET_NAME", nullable = false, length = 100)
     @NotBlank(groups = {CustomerCreate.class, CustomerUpdate.class})
-    //@NotNumeric(groups = {CustomerCreate.class, CustomerUpdate.class})
     @Length(max = 100, groups = {CustomerCreate.class, CustomerUpdate.class})
     private String streetName;
 
     @Basic
-    @Column(name = "SUBURB", nullable = false, length = 50)
+    @Column(name = "SUBURB", length = 50)
     @NotBlank(groups = {CustomerCreate.class, CustomerUpdate.class})
-   // @NotNumeric(groups = {CustomerCreate.class, CustomerUpdate.class})
     @Length(max = 50, groups = {CustomerCreate.class, CustomerUpdate.class})
     private String suburb;
 
@@ -96,30 +99,25 @@ public class AddressEntity extends AbstractAuditingEntity {
     private Integer pinCode;
 
     @Basic
-    @Column(name = "IS_PRIMARY_ADDRESS", nullable = false, length = 1)
+    @Column(name = "IS_PRIMARY_ADDRESS", nullable = false)
     @NotBlank(groups = {CustomerCreate.class, CustomerUpdate.class})
-    //@NotNumeric(groups = {CustomerCreate.class, CustomerUpdate.class})
-    @Length(max = 1, groups = {CustomerCreate.class, CustomerUpdate.class})
-    private String isPrimaryAddress;
+    private Boolean isPrimaryAddress;
 
     @Basic
-    @Column(name = "IS_MAILING_ADDRESS", nullable = false, length = 1)
+    @Column(name = "IS_MAILING_ADDRESS", nullable = false)
     @NotBlank(groups = {CustomerCreate.class, CustomerUpdate.class})
-    //@NotNumeric(groups = {CustomerCreate.class, CustomerUpdate.class})
-    @Length(max = 1, groups = {CustomerCreate.class, CustomerUpdate.class})
-    private String isMailingAdress;
+    private Boolean isMailingAdress;
 
     @Basic
     @Column(name = "STATUS", nullable = false, length = 10)
     @NotBlank(groups = {CustomerCreate.class, CustomerUpdate.class})
-    //@NotNumeric(groups = {CustomerCreate.class, CustomerUpdate.class})
+    @Enumerated(STRING)
     @Length(max = 10, groups = {CustomerCreate.class, CustomerUpdate.class})
     private Status status;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "REF_CUSTOMER_ID", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "REF_CUSTOMER_ID", referencedColumnName = "ID")
     @JsonIgnore
-    @NotNull
     CustomerEntity customer;
     
     @Override
@@ -196,19 +194,19 @@ public class AddressEntity extends AbstractAuditingEntity {
 		this.pinCode = pinCode;
 	}
 
-	public String getIsPrimaryAddress() {
+	public Boolean getIsPrimaryAddress() {
 		return isPrimaryAddress;
 	}
 
-	public void setIsPrimaryAddress(String isPrimaryAddress) {
+	public void setIsPrimaryAddress(Boolean isPrimaryAddress) {
 		this.isPrimaryAddress = isPrimaryAddress;
 	}
 
-	public String getIsMailingAdress() {
+	public Boolean getIsMailingAdress() {
 		return isMailingAdress;
 	}
 
-	public void setIsMailingAdress(String isMailingAdress) {
+	public void setIsMailingAdress(Boolean isMailingAdress) {
 		this.isMailingAdress = isMailingAdress;
 	}
 

@@ -1,0 +1,27 @@
+{
+    "firstName": "SUNIL1",
+    "middleName": "Krishna",
+    "lastName": "Behera1",
+    "initials": "SKB",
+    "gender": "MALE",
+    "maritalStatus": "MARRIED",
+    "creditRating": 10,
+    "isExistingCustomer": true,
+    "status": "ENABLED",
+    "version": 1,
+    "addressEntities": [
+            {
+                "unit": 1,
+                "streetName": "spencer",
+                "suburb": "CBD",
+                "city": "Melbourne",
+                "state": "State",
+                "country": "Australia",
+                "pinCode": 3000,
+                "isPrimaryAddress": true,
+                "isMailingAdress": true,
+                "status": "ENABLED",
+                "version": 1
+            }
+        ]
+}

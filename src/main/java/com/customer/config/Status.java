@@ -1,4 +1,4 @@
-package customer.customer;
+package com.customer.config;
 
 public enum Status {
     ENABLED,

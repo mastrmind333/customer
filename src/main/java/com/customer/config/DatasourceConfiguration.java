@@ -1,4 +1,4 @@
-package customer.customer;
+package com.customer.config;
 
 import javax.sql.DataSource;
 
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"customer.customer"})
+@EnableJpaRepositories(basePackages = {"com.customer"})
 public class DatasourceConfiguration {
 
     @Value("${spring.datasource.maximum-pool-size:3}")
